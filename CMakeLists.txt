@@ -8,6 +8,9 @@ endif()
 
 project (gnucash)
 
+
+set(CMAKE_BUILD_TYPE Debug)
+
 enable_testing()
 
 # Version number of gnucash
