@@ -165,8 +165,18 @@ gnc_window_get_progressbar_window (void)
 void
 gnc_window_show_progress (const char *message, double percentage)
 {
+    static double update_cnt = 0.0;
     GncWindow *window;
     GtkWidget *progressbar;
+
+    //Less draw operations via cairo, but more course progress bar
+    if ((percentage > 0.1) && (percentage < 99.0) && 
+        (percentage < update_cnt * (100.0 / 5.0)))
+    {
+        return;
+    }
+
+    update_cnt += 1.0; //So that next update happens after 20% change
 
     window = progress_bar_hack_window;
     if (window == NULL)
